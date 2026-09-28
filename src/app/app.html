@@ -8,8 +8,8 @@
 			<a href="#catalog">Catalog</a>
 			<a href="#story">Our workshop</a>
 		</div>
-		<button class="cart-button" type="button" aria-label="Shopping cart">
-			Cart <span class="cart-count">{{ cartCount() }}</span>
+		<button class="cart-button" type="button" aria-label="Shopping cart" [attr.aria-label]="'Shopping cart, ' + cartCount() + ' items'">
+			Cart <span class="cart-count" aria-live="polite">{{ cartCount() }}</span>
 		</button>
 	</nav>
 
@@ -44,15 +44,16 @@
 					<button
 						class="category-button"
 						[class.active]="selectedCategory() === category"
+						[attr.aria-pressed]="selectedCategory() === category"
 						type="button"
 						(click)="selectedCategory.set(category)">
 						{{ category }}
 					</button>
 				}
 			</div>
-			<label class="search-field">
+			<label class="search-field" for="catalog-search">
 				<span aria-hidden="true">⌕</span>
-				<input type="search" placeholder="Search the lineup" [value]="searchTerm()" (input)="updateSearch($event)" />
+				<input id="catalog-search" type="search" placeholder="Search the lineup" [value]="searchTerm()" (input)="updateSearch($event)" />
 			</label>
 		</div>
 
@@ -63,7 +64,7 @@
 						@if (product.badge) {
 							<span class="product-badge">{{ product.badge }}</span>
 						}
-						<img [src]="product.image" [alt]="product.name" />
+						<img [src]="product.image" [alt]="product.name" loading="lazy" decoding="async" />
 						<span class="image-index">0{{ $index + 1 }} / 04</span>
 					</div>
 					<div class="product-info">
@@ -74,10 +75,10 @@
 						<p class="product-price">${{ product.price }}</p>
 					</div>
 					<p class="product-description">{{ product.description }}</p>
-					<button class="add-button" type="button" (click)="addToCart()">Add to cart <span aria-hidden="true">+</span></button>
+					<button class="add-button" type="button" [attr.aria-label]="'Add ' + product.name + ' to cart'" (click)="addToCart()">Add to cart <span aria-hidden="true">+</span></button>
 				</article>
 			} @empty {
-				<p class="empty-state">No robots match that search. Try a different signal.</p>
+				<p class="empty-state" role="status">No robots match that search. Try a different signal.</p>
 			}
 		</div>
 	</section>
