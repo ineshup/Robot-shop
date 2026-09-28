@@ -1,0 +1,90 @@
+<main class="shop-shell">
+	<nav class="topbar" aria-label="Main navigation">
+		<a class="wordmark" href="/" aria-label="robot-shop home">
+			<span class="wordmark-mark">R</span>
+			<span>robot<span class="wordmark-accent">/</span>shop</span>
+		</a>
+		<div class="nav-links">
+			<a href="#catalog">Catalog</a>
+			<a href="#story">Our workshop</a>
+		</div>
+		<button class="cart-button" type="button" aria-label="Shopping cart" [attr.aria-label]="'Shopping cart, ' + cartCount() + ' items'">
+			Cart <span class="cart-count" aria-live="polite">{{ cartCount() }}</span>
+		</button>
+	</nav>
+
+	<section class="hero" id="story">
+		<div class="hero-copy">
+			<p class="eyebrow">Est. 2042 · Built for the everyday</p>
+			<h1>Hello, robot-shop</h1>
+			<p class="hero-description">Useful robots for curious homes, busy workshops, and all the little jobs in between.</p>
+			<a class="primary-link" href="#catalog">Browse the collection <span aria-hidden="true">↘</span></a>
+		</div>
+		<div class="hero-orbit" aria-hidden="true">
+			<div class="orbit-ring orbit-ring-one"></div>
+			<div class="orbit-ring orbit-ring-two"></div>
+			<div class="hero-robot">◉</div>
+			<span class="orbit-label label-one">01 / HOME</span>
+			<span class="orbit-label label-two">04 / PLAY</span>
+		</div>
+	</section>
+
+	<section class="catalog" id="catalog">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">The current lineup</p>
+				<h2>Meet your next <em>co-pilot.</em></h2>
+			</div>
+			<p class="results-count">{{ filteredProducts().length }} robots available</p>
+		</div>
+
+		<div class="catalog-tools">
+			<div class="category-list" aria-label="Filter by category">
+				@for (category of categories(); track category) {
+					<button
+						class="category-button"
+						[class.active]="selectedCategory() === category"
+						[attr.aria-pressed]="selectedCategory() === category"
+						type="button"
+						(click)="selectedCategory.set(category)">
+						{{ category }}
+					</button>
+				}
+			</div>
+			<label class="search-field" for="catalog-search">
+				<span aria-hidden="true">⌕</span>
+				<input id="catalog-search" type="search" placeholder="Search the lineup" [value]="searchTerm()" (input)="updateSearch($event)" />
+			</label>
+		</div>
+
+		<div class="product-grid">
+			@for (product of filteredProducts(); track product.name) {
+				<article class="product-card">
+					<div class="product-image" [style.--accent]="product.accent">
+						@if (product.badge) {
+							<span class="product-badge">{{ product.badge }}</span>
+						}
+						<img [src]="product.image" [alt]="product.name" loading="lazy" decoding="async" />
+						<span class="image-index">0{{ $index + 1 }} / 04</span>
+					</div>
+					<div class="product-info">
+						<div>
+							<p class="product-category">{{ product.category }}</p>
+							<h3>{{ product.name }}</h3>
+						</div>
+						<p class="product-price">${{ product.price }}</p>
+					</div>
+					<p class="product-description">{{ product.description }}</p>
+					<button class="add-button" type="button" [attr.aria-label]="'Add ' + product.name + ' to cart'" (click)="addToCart()">Add to cart <span aria-hidden="true">+</span></button>
+				</article>
+			} @empty {
+				<p class="empty-state" role="status">No robots match that search. Try a different signal.</p>
+			}
+		</div>
+	</section>
+
+	<footer>
+		<span>Made with care in the robot-shop workshop.</span>
+		<span>Ships worldwide · Warranty included</span>
+	</footer>
+</main>

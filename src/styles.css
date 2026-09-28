@@ -1,0 +1,17 @@
+:root {
+	--paper: #f5f1e8;
+	--ink: #1b252a;
+	--muted: #6d746f;
+	--line: #d7d1c5;
+	--yellow: #e9b949;
+	--coral: #cf5e4d;
+	--display: 'Arial Narrow', 'Helvetica Neue', sans-serif;
+	color: var(--ink);
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); margin: 0; }
+a { text-decoration: none; }
