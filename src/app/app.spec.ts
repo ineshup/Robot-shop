@@ -35,7 +35,7 @@ describe('App', () => {
     expect(cards[0].textContent).toContain('Atlas Mini');
   });
 
-  it('filters products by category and updates the cart count', async () => {
+  it('filters products by category and aggregates repeated cart additions', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
 
@@ -49,8 +49,9 @@ describe('App', () => {
 
     const addButton = fixture.nativeElement.querySelector('.add-button') as HTMLButtonElement;
     addButton.click();
+    addButton.click();
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.cart-count')?.textContent?.trim()).toBe('1');
+    expect(fixture.nativeElement.querySelector('.cart-count')?.textContent?.trim()).toBe('2');
   });
 });
