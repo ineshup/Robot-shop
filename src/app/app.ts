@@ -19,7 +19,10 @@ export class App {
   protected readonly title = signal('robot-shop');
   protected readonly searchTerm = signal('');
   protected readonly selectedCategory = signal('All robots');
-  protected readonly cartCount = signal(0);
+  protected readonly cartItems = signal<Record<string, number>>({});
+  protected readonly cartCount = computed(() =>
+    Object.values(this.cartItems()).reduce((total, quantity) => total + quantity, 0)
+  );
 
   protected readonly products: RobotProduct[] = [
     {
@@ -78,7 +81,10 @@ export class App {
     this.searchTerm.set((event.target as HTMLInputElement).value);
   }
 
-  protected addToCart(): void {
-    this.cartCount.update((count) => count + 1);
+  protected addToCart(productName: string): void {
+    this.cartItems.update((items) => ({
+      ...items,
+      [productName]: (items[productName] ?? 0) + 1
+    }));
   }
 }
